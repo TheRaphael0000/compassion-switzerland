@@ -349,8 +349,11 @@ class StatementCompletionRule(models.Model):
         return res, True
 
     def _generate_invoice_line(self, invoice_id, product, st_line, partner_id):
+        name = product.name
+        if "note" in st_line and st_line["note"] != "":
+            name = st_line["note"]
         inv_line_data = {
-            "name": product.name,
+            "name": name,
             "account_id": product.property_account_income_id.id,
             "price_unit": st_line["amount"],
             "price_subtotal": st_line["amount"],
